@@ -55,7 +55,7 @@ $ sudo apt update
 ```
 * Recherchez le paquet ansible avec les options qui vont bien.
 ```
-sudo apt-add-repository ppa:ansible/ansible
+$ sudo apt-add-repository ppa:ansible/ansible
 $ sudo apt update
 ```
 * Installez le paquet officiel fourni par la distribution.
