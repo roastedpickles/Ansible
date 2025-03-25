@@ -177,3 +177,11 @@ target03 | SUCCESS => {
 }
 
 ```
+* Quittez la VM :
+```
+$ exit
+```
+* Supprimez les deux VM :
+```
+$ vagrant destroy -f
+```
