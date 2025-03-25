@@ -27,6 +27,7 @@ $ sudo apt install -y ansible
 * Vérifiez si l’installation s’est bien déroulée.
 ```
 $ dpkg-query -l | grep "ansible"
+$ type ansible
 ```
 * Notez la version d’Ansible.
 ```
@@ -64,6 +65,7 @@ $ sudo apt install -y ansible
 * Vérifiez si l’installation s’est bien déroulée.
 ```
 $ dpkg-query -l | grep "ansible"
+$ type ansible
 ```
 * Notez la version d’Ansible.
 ```
@@ -87,6 +89,7 @@ $ python3 -m venv ~/.venv/ansible
 $ source ~/.venv/ansible/bin/activate
 (ansible) $ pip install --upgrade pip
 (ansible) $ pip install ansible
+(ansible) $ type ansible
 (ansible) $ ansible --version
 ansible [core 2.15.13]
   config file = None
