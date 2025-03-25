@@ -1,6 +1,6 @@
 # Ansible par la pratique
 
-##Exercice
+## Exercice
 
 Placez-vous dans le répertoire du troisième atelier pratique :
 ```
