@@ -65,7 +65,7 @@ ansible_become=yes
 
   tasks:
 
-    - name: Install Apache
+    - name: Install Chrony
       dnf:
         name: chrony
 ...
@@ -78,11 +78,11 @@ ansible_become=yes
 
   tasks:
 
-    - name: Install Apache
+    - name: Install Chrony
       dnf:
         name: chrony
 
-    - name: Start & enable Apache
+    - name: Start & enable Chrony
       service:
         name: chronyd
         state: started
@@ -96,17 +96,17 @@ ansible all -a "cat /etc/chrony.conf"
 ```
 * Installez une configuration personnalisée (cf. ci-dessous).
 ```
---- #  chrony.yml
+---  # chrony.yml
 
 - hosts: redhat
 
   tasks:
 
-    - name: Install Apache
+    - name: Install Chrony
       dnf:
         name: chrony
 
-    - name: Start & enable Apache
+    - name: Start & enable Chrony
       service:
         name: chronyd
         state: started
@@ -115,7 +115,6 @@ ansible all -a "cat /etc/chrony.conf"
     - name: Configuration du fichier chrony.conf
       copy:
         dest: /etc/chrony.conf
-        mode: 0644
         content: |
           # /etc/chrony.conf
           server 0.fr.pool.ntp.org iburst
@@ -126,6 +125,14 @@ ansible all -a "cat /etc/chrony.conf"
           makestep 1.0 3
           rtcsync
           logdir /var/log/chrony
+      notify: Restart Chrony
+
+  handlers:
+
+    - name: Restart Chrony
+      service:
+        name: chronyd
+        state: restarted
 
 ...
 ```
@@ -144,12 +151,12 @@ ok: [target02]
 ok: [target01]
 ok: [target03]
 
-TASK [Install Apache] **********************************************************************************************
+TASK [Install Chrony] **********************************************************************************************
 ok: [target01]
 ok: [target03]
 ok: [target02]
 
-TASK [Start & enable Apache] ***************************************************************************************
+TASK [Start & enable Chrony] ***************************************************************************************
 ok: [target03]
 ok: [target02]
 ok: [target01]
@@ -208,12 +215,12 @@ ok: [target03]
 ok: [target01]
 ok: [target02]
 
-TASK [Install Apache] **********************************************************************************************
+TASK [Install Chrony] **********************************************************************************************
 ok: [target03]
 ok: [target02]
 ok: [target01]
 
-TASK [Start & enable Apache] ***************************************************************************************
+TASK [Start & enable Chrony] ***************************************************************************************
 ok: [target02]
 ok: [target03]
 ok: [target01]
