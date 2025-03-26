@@ -45,7 +45,7 @@ drwxr-xr-x. 2 vagrant vagrant   6 Sep 19 14:26 playbooks
 
 Écrivez trois playbooks :
 
-* Un premier playbook apache-debian.yml qui installe Apache sur l’hôte debian avec une page personnalisée Apache web server running on Debian Linux. Nous le sauvegardeons dans playbooks/apache-debian.yml
+* Un premier playbook apache-debian.yml qui installe Apache sur l’hôte debian avec une page personnalisée Apache web server running on Debian Linux. Nous le sauvegarderons dans playbooks/apache-debian.yml
 ```
 ---  # apache-debian.yml
 
@@ -125,7 +125,7 @@ $ curl debian
 </html>
 
 ```
-* Un deuxième playbook apache-rocky.yml qui installe Apache sur l’hôte rocky avec une page personnalisée Apache web server running on Rocky Linux. Nous le sauvegardeons dans playbooks/apache-rocky.yml
+* Un deuxième playbook apache-rocky.yml qui installe Apache sur l’hôte rocky avec une page personnalisée Apache web server running on Rocky Linux. Nous le sauvegarderons dans playbooks/apache-rocky.yml
 ```
 
 ---  # apache-rocky.yml
@@ -197,7 +197,7 @@ $ curl rocky
   </body>
 </html>
 ```
-* Un troisième playbook apache-suse.yml qui installe Apache sur l’hôte suse avec une page personnalisée Apache web server running on SUSE Linux. Nous le sauvegardeons dans playbooks/apache-suse.yml
+* Un troisième playbook apache-suse.yml qui installe Apache sur l’hôte suse avec une page personnalisée Apache web server running on SUSE Linux. Nous le sauvegarderons dans playbooks/apache-suse.yml
 ```
 ---  # apache-suse.yml
 
