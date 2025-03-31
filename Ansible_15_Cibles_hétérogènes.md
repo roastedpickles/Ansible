@@ -246,3 +246,12 @@ chrony_config_directory: /etc
 ...
 
 ```
+
+Quittez le Control Host :
+```
+$ exit
+```
+Supprimez toutes les VM :
+```
+$ vagrant destroy -f
+```
