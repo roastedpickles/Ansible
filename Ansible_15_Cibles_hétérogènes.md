@@ -157,5 +157,92 @@ logdir /var/log/chrony
 ```
 * Le deuxième playbook chrony-02.yml définira trois variables chrony_package, chrony_service et chrony_confdir et utilisera le module de gestion de paquets générique package.
 ```
+---  # chrony-02.yml
+
+- hosts: all
+
+  tasks:
+
+    - name: Load distribution-specific parameters
+      include_vars: >
+        chrony01_{{ansible_distribution|lower|replace(" ", "-") }}.yml
+
+    - name: Update package information on Debian/Ubuntu
+      apt:
+        update_cache: true
+        cache_valid_time: 3600
+      when: ansible_os_family == "Debian"
+
+    - name: Install Chrony
+      package:
+        name: "{{chrony_package_name}}"
+
+    - name: Start chrony & enable it on boot
+      service:
+        name: "{{chrony_service_name}}"
+        state: started
+        enabled: true
+
+    - name: Configure file
+      copy:
+        dest: "{{chrony_config_directory}}/chrony.conf"
+        content: |
+          # /etc/chrony.conf
+          server 0.fr.pool.ntp.org iburst
+          server 1.fr.pool.ntp.org iburst
+          server 2.fr.pool.ntp.org iburst
+          server 3.fr.pool.ntp.org iburst
+          driftfile /var/lib/chrony/drift
+          makestep 1.0 3
+          rtcsync
+          logdir /var/log/chrony
+      notify: Reload Chrony
+
+
+  handlers:
+
+    - name: Reload Chrony
+      service:
+        name: "{{chrony_service_name}}"
+        state: restarted
+...
+```
+Et les différents fichiers de configuration :
+```
+---  # vars/chrony01_debian.yml
+
+chrony_package_name: chrony
+chrony_service_name: chronyd
+chrony_config_directory: /etc/chrony
+
+...
+```
+```
+---  # vars/chrony01_ubuntu.yml
+
+chrony_package_name: chrony
+chrony_service_name: chrony
+chrony_config_directory: /etc/chrony
+
+...
+
+```
+```
+---  # vars/chrony01_opensuse-leap.yml
+
+chrony_package_name: chrony
+chrony_service_name: chronyd
+chrony_config_directory: /etc
+
+...
+```
+```
+---  # vars/chrony01_rocky.yml
+
+chrony_package_name: chrony
+chrony_service_name: chronyd
+chrony_config_directory: /etc
+
+...
 
 ```
