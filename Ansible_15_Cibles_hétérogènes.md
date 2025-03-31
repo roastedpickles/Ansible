@@ -3,7 +3,7 @@
 Placez-vous dans le répertoire du dixième atelier pratique :
 
 ```
-$ cd ~/formation-ansible/atelier-16
+$ cd ~/formation-ansible/atelier-17
 ```
 Voici les quatre machines virtuelles de cet atelier :
 
