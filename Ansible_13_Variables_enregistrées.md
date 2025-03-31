@@ -167,7 +167,7 @@ ansible_python_interpreter=/usr/bin/python3
 ansible_user=vagrant
 ansible_become=yes
 ```
-  * puis créez le script (utilisez le module "shell" plutot que "command" ca ce dernier ne prend pas en comte les "|") :
+  * puis créez le script (utilisez le module "shell" plutot que "command" car ce dernier ne prend pas en compte les "|") :
 ```
 ---  # packages.yml
 
