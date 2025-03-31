@@ -10,4 +10,4 @@
 * [Ansible_13_Variables_enregistrées](./Ansible_13_Variables_enregistrées.md)
 * [Ansible_14_Facts_et_variables_implicites](./Ansible_14_Facts_et_variables_implicites.md)
 * [Ansible_15_Cibles_hétérogènes](./Ansible_15_Cibles_hétérogènes.md)
-* [Ansible_16_Variables](./Ansible_12_Variables.md)
+* [Ansible_16_Jinja_&_Templates](./Ansible_16_Jinja_&_Templates.md)
