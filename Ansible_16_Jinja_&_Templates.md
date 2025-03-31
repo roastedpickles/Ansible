@@ -162,6 +162,104 @@ logdir /var/log/chrony
 
 ```
 
+* résultats de l'execution :
+
+```
+$ ansible-playbook chrony.yml 
+
+PLAY [all] *********************************************************************************************************
+
+TASK [Gathering Facts] *********************************************************************************************
+ok: [debian]
+ok: [ubuntu]
+ok: [rocky]
+ok: [suse]
+
+TASK [Load distribution-specific parameters] ***********************************************************************
+ok: [rocky]
+ok: [debian]
+ok: [suse]
+ok: [ubuntu]
+
+TASK [Update package information on Debian/Ubuntu] *****************************************************************
+skipping: [rocky]
+skipping: [suse]
+ok: [ubuntu]
+changed: [debian]
+
+TASK [Install Chrony] **********************************************************************************************
+ok: [debian]
+ok: [suse]
+ok: [ubuntu]
+ok: [rocky]
+
+TASK [Start chrony & enable it on boot] ****************************************************************************
+ok: [ubuntu]
+ok: [debian]
+ok: [rocky]
+ok: [suse]
+
+TASK [Configure custom chrony.conf file] ***************************************************************************
+ok: [ubuntu]
+ok: [debian]
+ok: [suse]
+ok: [rocky]
+
+PLAY RECAP *********************************************************************************************************
+debian                     : ok=6    changed=1    unreachable=0    failed=0    skipped=0    rescued=0    ignored=0   
+rocky                      : ok=5    changed=0    unreachable=0    failed=0    skipped=1    rescued=0    ignored=0   
+suse                       : ok=5    changed=0    unreachable=0    failed=0    skipped=1    rescued=0    ignored=0   
+ubuntu                     : ok=6    changed=0    unreachable=0    failed=0    skipped=0    rescued=0    ignored=0   
+
+
+
+$ ansible rocky,suse -a "cat /etc/chrony.conf"
+suse | CHANGED | rc=0 >>
+# chrony.conf
+server 0.fr.pool.ntp.org iburst
+server 1.fr.pool.ntp.org iburst
+server 2.fr.pool.ntp.org iburst
+server 3.fr.pool.ntp.org iburst
+driftfile /var/lib/chrony/drift
+makestep 1.0 3
+rtcsync
+logdir /var/log/chrony
+rocky | CHANGED | rc=0 >>
+# chrony.conf
+server 0.fr.pool.ntp.org iburst
+server 1.fr.pool.ntp.org iburst
+server 2.fr.pool.ntp.org iburst
+server 3.fr.pool.ntp.org iburst
+driftfile /var/lib/chrony/drift
+makestep 1.0 3
+rtcsync
+logdir /var/log/chrony
+
+
+$ ansible debian,ubuntu -a "cat /etc/chrony/chrony.conf"
+ubuntu | CHANGED | rc=0 >>
+# chrony.conf
+server 0.fr.pool.ntp.org iburst
+server 1.fr.pool.ntp.org iburst
+server 2.fr.pool.ntp.org iburst
+server 3.fr.pool.ntp.org iburst
+driftfile /var/lib/chrony/drift
+makestep 1.0 3
+rtcsync
+logdir /var/log/chrony
+debian | CHANGED | rc=0 >>
+# chrony.conf
+server 0.fr.pool.ntp.org iburst
+server 1.fr.pool.ntp.org iburst
+server 2.fr.pool.ntp.org iburst
+server 3.fr.pool.ntp.org iburst
+driftfile /var/lib/chrony/drift
+makestep 1.0 3
+rtcsync
+logdir /var/log/chrony
+
+```
+
 Quittez le Control Host :
 ```
 $ exit
