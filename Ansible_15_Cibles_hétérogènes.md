@@ -61,6 +61,98 @@ logdir /var/log/chrony
 
 * Le premier playbook chrony-01.yml utilisera les modules de gestion de paquets natifs apt, dnf et zypper et s’inspirera de la méthode « gros sabots » utilisée plus haut dans cet article.
 ```
+---  # chrony-01.yml
+
+- hosts: all
+
+  tasks:
+
+    - name: Update package information on Debian/Ubuntu
+      apt:
+        update_cache: true
+        cache_valid_time: 3600
+      when: ansible_os_family == "Debian"
+
+    - name: Install Chrony on Debian/Ubuntu
+      apt:
+        name: chrony
+      when: ansible_os_family == "Debian"
+
+
+    - name: Install Chrony on Rocky Linux
+      dnf:
+        name: chrony
+      when: ansible_distribution == "Rocky"
+
+
+    - name: Install Chrony on SUSE Linux
+      zypper:
+        name: chrony
+      when: ansible_distribution == "openSUSE Leap"
+
+
+    - name: Start & enable Chrony for debian family
+      service:
+        name: chrony
+        state: started
+        enabled: true
+      when: ansible_distribution in ["Debian", "Ubuntu"]      
+
+    - name: Configuration du fichier chrony.conf for debian
+      copy:
+        dest: /etc/chrony/chrony.conf
+        content: |
+          # /etc/chrony/chrony.conf
+          server 0.fr.pool.ntp.org iburst
+          server 1.fr.pool.ntp.org iburst
+          server 2.fr.pool.ntp.org iburst
+          server 3.fr.pool.ntp.org iburst
+          driftfile /var/lib/chrony/drift
+          makestep 1.0 3
+          rtcsync
+          logdir /var/log/chrony
+      notify: Restart Chronydebian
+      when: ansible_distribution in ["Debian", "Ubuntu"]
+
+    - name: Start & enable Chrony
+      service:
+        name: chronyd
+        state: started
+        enabled: true
+      when: ansible_distribution in ["Rocky", "openSUSE Leap"]
+
+    - name: Configuration du fichier chrony.conf
+      copy:
+        dest: /etc/chrony.conf
+        content: |
+          # /etc/chrony.conf
+          server 0.fr.pool.ntp.org iburst
+          server 1.fr.pool.ntp.org iburst
+          server 2.fr.pool.ntp.org iburst
+          server 3.fr.pool.ntp.org iburst
+          driftfile /var/lib/chrony/drift
+          makestep 1.0 3
+          rtcsync
+          logdir /var/log/chrony
+      notify: Restart Chrony!debian
+      when: ansible_distribution in ["Rocky", "openSUSE Leap"]
+
+  handlers:
+
+    - name: Restart Chrony!debian
+      service:
+        name: chronyd
+        state: restarted
+
+
+    - name: Restart Chronydebian
+      service:
+        name: chrony
+        state: restarted
+
+...
+
+
 
 ```
 * Le deuxième playbook chrony-02.yml définira trois variables chrony_package, chrony_service et chrony_confdir et utilisera le module de gestion de paquets générique package.
